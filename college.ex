@@ -5,16 +5,16 @@ defmodule College do
   end
 
   def make_room_list(device, hash_dict) do
-    data = IO.readline(device)
-    make_room_list(data, device, hash_dict)
+    line = IO.readline(device)
+    process_line(line, device, hash_dict)
   end
 
-  def make_room_list(:eof, device, hash_dict) do 
+  def process_line(:eof, device, hash_dict) do 
     File.close(device)
     hash_dict
   end
 
-  def make_room_list(line, device, hash_dict) do
+  def process_line(line, device, hash_dict) do
     [_, course_name, room] = String.split(String.strip(line), ",")
 
     cond do 
@@ -25,6 +25,6 @@ defmodule College do
     end
 
     next_line = IO.readline(device)
-    make_room_list(next_line, device, new_hash_dict)
+    process_line(next_line, device, new_hash_dict)
   end
 end

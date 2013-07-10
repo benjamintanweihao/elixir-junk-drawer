@@ -1,5 +1,11 @@
 defmodule NonFP do
-  # tlist: tooth list
+  def run do
+    tlist = 'FTTTTTTTTTTTTTTFTTTTTTTTTTTTTTTT'
+    :random.seed(:erlang.now)
+    generate_pockets(tlist, 0.75)
+  end
+
+  # tlist    : tooth list
   # good_prob: good tooth probability
   def generate_pockets(tlist, good_prob) do
     generate_pockets(tlist, good_prob, [])
@@ -8,15 +14,14 @@ defmodule NonFP do
   # base case
   def generate_pockets([], _good_prob, teeth_list), do: Enum.reverse(teeth_list)
 
-  def generate_pockets([?T, tail], good_prob, teeth_list) do
+  def generate_pockets([?T|tail], good_prob, teeth_list) do
     generate_pockets(tail, good_prob, [ generate_good_teeth(good_prob) | teeth_list ])
   end
 
   # No Tooth
-  def generate_pockets([?F, tail], good_prob, teeth_list) do
+  def generate_pockets([?F|tail], good_prob, teeth_list) do
     generate_pockets(tail, good_prob, [ [0] | teeth_list ])
   end
-
 
   # helper for generating good teeth
   def generate_good_teeth(good_prob) do
@@ -37,12 +42,6 @@ defmodule NonFP do
       true -> 3
     end
     base_depth + :random.uniform(3)-2
-  end
-
-  def run do
-    tlist = 'FTTTTTTTTTTTTTTFTTTTTTTTTTTTTTTT'
-    :random.seed(:erlang.now)
-    generate_pockets(tlist, 0.75)
   end
 end
 

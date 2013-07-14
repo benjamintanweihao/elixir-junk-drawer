@@ -2,7 +2,6 @@
 # So far, only pop is implemented
 defmodule Stacky.Server do
   use GenServer.Behaviour
-
   
   # The server is first intialized with the content of the stack
   def init(stack) when is_list(stack) do
@@ -20,4 +19,9 @@ defmodule Stacky.Server do
     [head|tail]  = stack
     { :reply, head,  tail }
   end
+  
+  # slightly more consise
+  # def handle_call(:pop, _from, [head|tail]) do
+  #   { :reply, head,  tail }
+  # end
 end

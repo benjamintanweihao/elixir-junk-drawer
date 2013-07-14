@@ -1,0 +1,2 @@
+defmodule Stacky do
+end

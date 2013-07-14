@@ -15,7 +15,7 @@ defmodule Scheduler do
   end
   
   # queue is the work needed to be done.
-  defp schedule_processes(processes, queue, result) do
+  defp schedule_processes(processes, queue, results) do
     # What messages does it need to handle?
     # { :ready, self }
     # { :answer, n, fib_calc(n), self }
@@ -77,5 +77,18 @@ defmodule FibSolver do
   # Here's where we perform the calculation.
   defp fib_calc(0), do: 1
   defp fib_calc(1), do: 1
-  defp fib_calc(m), do: fib_calc(n-1) + fib_calc(n-2)
+  defp fib_calc(n), do: fib_calc(n-1) + fib_calc(n-2)
 end
+
+to_process = Enum.map(1..20, fn(_) -> :random.uniform(40) end)
+
+Enum.each 1..10, fn num_processes ->
+  {time, result} = :timer.tc(Scheduler, :run, [num_processes, FibSolver, :fib, to_process])
+
+  if num_processes == 1 do
+    IO.puts inspect result
+    IO.puts "\n #    time (s)"
+  end
+  :io.format "~2B        ~.2f~n", [num_processes, time/1000000.0] 
+end
+

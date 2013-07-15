@@ -19,6 +19,8 @@ defmodule Sequence.Server do
     # :reply tells OTP to reply to the client, passing the second
     # value back to the client.
     # the third value is the new state of the server.
+
+    # Since this is a callback, this is returned on success
     { :reply, current_number, current_number + 1 }
   end
 
@@ -31,6 +33,19 @@ defmodule Sequence.Server do
   # def handle_call({:factors, number}, _, _) do
   #   { :reply, { :factors_of, number, factors(number)}, [] }
   # end 
+
+  # use handle_cast when you are not waiting for a response. 
+  # i.e a command rather than a query
+  def handle_cast({:increment_number, delta}, current_number) do
+    # this function returns the new state
+    # :noreply is the reply on success
+    { :noreply, current_number + delta }
+  end
+
+  # customize the look of the status message
+  def format_status(_reason, [ _pdict, state ]) do
+    [data: [{'State', "My current state is '#{inspect state}', and I'm happy"}]]
+  end
 end
 
 # How to start

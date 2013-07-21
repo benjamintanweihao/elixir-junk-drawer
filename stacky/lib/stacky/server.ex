@@ -3,15 +3,23 @@
 defmodule Stacky.Server do
   use GenServer.Behaviour
   
+  ####
+  # External API
+  def start_link(initial_stack) do
+    # :gen_server.start_link({ 
+  end
+
+
+  
   # The server is first intialized with the content of the stack
   def init(stack) when is_list(stack) do
     { :ok, stack }
   end
   
   # simply return an empty list if list is empty
-  def handle_call(:pop, _from, []) do
-    { :reply, [], [] }
-  end
+  # def handle_call(:pop, _from, []) do
+  #   { :reply, [], [] }
+  # end
   
   # otherwise, returned the popped element, and set the 
   # next server state to be the tail of the list(stack)
